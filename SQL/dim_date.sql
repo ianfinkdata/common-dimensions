@@ -23,19 +23,8 @@ SELECT
     LEFT(MONTHNAME(CalendarDate), 3) AS Month,
     QUARTER(CalendarDate) AS Quarter,
     WEEKDAY(CalendarDate) AS WeekDay,
-    CASE 
-        WHEN WEEKDAY(CalendarDate) = 0 THEN 'Mon'
-        WHEN WEEKDAY(CalendarDate) = 1 THEN 'Tue'
-        WHEN WEEKDAY(CalendarDate) = 2 THEN 'Wed'
-        WHEN WEEKDAY(CalendarDate) = 3 THEN 'Thu'
-        WHEN WEEKDAY(CalendarDate) = 4 THEN 'Fri'
-        WHEN WEEKDAY(CalendarDate) = 5 THEN 'Sat'
-        WHEN WEEKDAY(CalendarDate) = 6 THEN 'Sun'
-    END AS WeekDayName,
-    CASE 
-        WHEN WEEKDAY(CalendarDate) >= 5 THEN 1 
-        ELSE 0 
-    END AS IsWeekend,
+    DATE_FORMAT(CalendarDate, '%a') AS WeekDayName,
+    CASE WHEN WEEKDAY(CalendarDate) >= 5 THEN 1 ELSE 0 END AS IsWeekend,
     
     -- Baking the WeekStart math directly into the creation step
     DATE_SUB(CalendarDate, INTERVAL (DAYOFWEEK(CalendarDate) - 1) DAY) AS WeekStart,
